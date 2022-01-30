@@ -1,4 +1,5 @@
 const resolvers = {
+  // pattern for resolver methods: (parent, args, context, info) => {}
   Query: {
     // returns an array of Tracks that will be used to populate the homepage grid of our web client
     tracksForHome: (_, __, { dataSources }) => {
@@ -8,6 +9,11 @@ const resolvers = {
     // get a single track by ID, for the track page
     track: (_, { id }, { dataSources }) => {
       return dataSources.trackAPI.getTrack(id);
+    },
+
+    // get a single module by ID, for the module's page
+    module: (_, { id }, { dataSources }) => {
+      return dataSources.trackAPI.getModule(id);
     },
   },
   Track: {
@@ -19,6 +25,11 @@ const resolvers = {
       return dataSources.trackAPI.getTrackModules(id);
     },
   },
+  Module: {
+    track: ({ trackId }, _, { dataSources }) => {
+      return dataSources.trackAPI.getTrack(trackId);
+    }
+  }
 };
 
 module.exports = resolvers;
